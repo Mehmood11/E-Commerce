@@ -1,0 +1,19 @@
+.main-header {
+  .navbar-item {
+    a {
+      border-radius: 8px;
+      padding: 7px 15px;
+      text-decoration: none;
+      color: black;
+      &:hover {
+        background-color: #3e2b24;
+        color: white;
+        transition: 0.3s ease;
+      }
+      &.active {
+        color: #fff !important;
+        background: #3e2b24 !important;
+      }
+    }
+  }
+}

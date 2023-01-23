@@ -1,0 +1,33 @@
+.main-slider {
+  .carousel {
+    width: 100% !important;
+    .carousel .control-dots {
+      margin-top: 30px !important;
+    }
+    .dot {
+      opacity: 1 !important;
+    }
+    .dot.selected {
+      background-color: black;
+    }
+    .control-arrow {
+      color: antiquewhite;
+      display: block;
+      opacity: 1 !important;
+    }
+
+    .carousel .control-arrow {
+      &:hover {
+        background-color: transparent !important;
+      }
+      display: block;
+    }
+    .carousel-status {
+      display: none !important;
+    }
+
+    // .slide {
+    //   padding: 5px !important;
+    // }
+  }
+}
