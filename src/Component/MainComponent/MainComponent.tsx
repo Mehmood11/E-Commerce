@@ -1,6 +1,7 @@
 import React from "react";
 import HeroSection from "./HeroSection/HeroSection";
 import { motion } from "framer-motion";
+import ProductItem from "./ProductItem/ProductItem";
 const MainComponent = () => {
   return (
     <motion.div
@@ -9,6 +10,7 @@ const MainComponent = () => {
       exit={{ opacity: 0 }}
     >
       <HeroSection />
+      <ProductItem />
     </motion.div>
   );
 };
