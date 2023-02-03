@@ -66,7 +66,7 @@ const Header = () => {
               height: 0,
               borderLeft: "25px solid transparent",
               borderRight: "25px solid transparent",
-              borderBottom: "50px solid #3e2b240f",
+              borderBottom: "50px solid white",
             }}
           ></div>
           <Typography component={"span"} sx={{ position: "absolute", top: 10 }}>

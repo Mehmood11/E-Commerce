@@ -1,11 +1,7 @@
 import React from "react";
-import { motion } from "framer-motion";
 const Contact = () => {
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
+    <div
     >
       Contrary to popular belief, Lorem Ipsum is not simply random text. It has
       roots in a piece of classical Latin literature from 45 BC, making it over
@@ -37,7 +33,7 @@ const Contact = () => {
       by Cicero, written in 45 BC. This book is a treatise on the theory of
       ethics, very popular during the Renaissance. The first line of Lorem
       Ipsum, "Lor
-    </motion.div>
+    </div>
   );
 };
 

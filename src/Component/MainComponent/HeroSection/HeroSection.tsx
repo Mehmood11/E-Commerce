@@ -9,7 +9,6 @@ import sliderImage from "../../../assets/sliderImage.jpg";
 import sliderImage2 from "../../../assets/sliderImage2.jpg";
 import "./HeroSection.scss";
 import SearchIcon from "@mui/icons-material/Search";
-import { motion } from "framer-motion";
 
 const mainSlider = [
   {
@@ -30,10 +29,7 @@ const mainSlider = [
 
 const HeroSection = () => {
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
+    <div
       className="main-slider"
       style={{
         width: "100%",
@@ -165,7 +161,7 @@ const HeroSection = () => {
           </div>
         ))}
       </Carousel>
-    </motion.div>
+    </div>
   );
 };
 

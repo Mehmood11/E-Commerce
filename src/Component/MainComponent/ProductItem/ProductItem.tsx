@@ -14,6 +14,9 @@ import { favProductAction } from "../../../store/productSlice/ProductSlice";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux/es/exports";
 import "./ProductItem.scss";
+
+import ProductDetailsModal from "./ProductDetailsModal/ProductDetailsModal";
+
 const chairArray = [
   {
     id: 1,
@@ -21,6 +24,7 @@ const chairArray = [
     title: "Chair",
     price: 12,
     rating: 2,
+    text: "Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 o (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, comes from a line in section 1.10.32.",
   },
   {
     id: 2,
@@ -28,6 +32,7 @@ const chairArray = [
     title: "Chair",
     price: 12,
     rating: 3,
+    text: "Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 o (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, comes from a line in section 1.10.32.",
   },
   {
     id: 3,
@@ -35,6 +40,7 @@ const chairArray = [
     title: "Chair",
     price: 12,
     rating: 1,
+    text: "Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 o (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, comes from a line in section 1.10.32.",
   },
   {
     id: 4,
@@ -42,6 +48,7 @@ const chairArray = [
     title: "Chair",
     price: 12,
     rating: 5,
+    text: "Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 o (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, comes from a line in section 1.10.32.",
   },
   {
     id: 5,
@@ -49,6 +56,7 @@ const chairArray = [
     title: "Chair",
     price: 12,
     rating: 1,
+    text: "Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 o (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, comes from a line in section 1.10.32.",
   },
   {
     id: 6,
@@ -56,6 +64,7 @@ const chairArray = [
     title: "Chair",
     price: 12,
     rating: 2,
+    text: "Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 o (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, comes from a line in section 1.10.32.",
   },
 ];
 const ProductItem = () => {
@@ -72,7 +81,7 @@ const ProductItem = () => {
         alignItems: "fle",
         flexDirection: "column",
         m: "0 auto",
-        width: "70%",
+        width: "60%",
         height: "100vh",
         // background: "#333",
       }}
@@ -116,19 +125,6 @@ const ProductItem = () => {
                 value={item.rating}
                 readOnly
               />
-              <FavoriteBorderIcon
-                sx={{
-                  position: "absolute",
-                  top: 10,
-                  right: 10,
-                  cursor: "pointer",
-                  fill: "#3E2B24",
-                }}
-                onClick={() => {
-                  disptach(favProductAction(item));
-                  setFavIcon(!favIcon);
-                }}
-              />
               {favProduct?.find((items: any) => items.id === item.id) ? (
                 <FavoriteIcon
                   sx={{
@@ -156,6 +152,7 @@ const ProductItem = () => {
                   }}
                 />
               )}
+              <ProductDetailsModal data={item} />
             </Grid>
           </Grid>
         ))}
