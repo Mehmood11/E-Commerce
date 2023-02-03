@@ -14,9 +14,11 @@ import "./Header.scss";
 import chairLogo from "../../assets/chair.svg";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import { useSelector } from "react-redux";
 
 const Header = () => {
   const [age, setAge] = React.useState("English (UK)");
+  const favProduct = useSelector((state: any) => state.favProduct);
 
   const handleChange = (event: SelectChangeEvent) => {
     setAge(event.target.value);
@@ -64,7 +66,7 @@ const Header = () => {
               height: 0,
               borderLeft: "25px solid transparent",
               borderRight: "25px solid transparent",
-              borderBottom: "50px solid white",
+              borderBottom: "50px solid #3e2b240f",
             }}
           ></div>
           <Typography component={"span"} sx={{ position: "absolute", top: 10 }}>
@@ -167,7 +169,7 @@ const Header = () => {
                 borderRadius: "50%",
               }}
             >
-              3
+              {favProduct.length}
             </Typography>
             <FavoriteBorderIcon />
           </Box>

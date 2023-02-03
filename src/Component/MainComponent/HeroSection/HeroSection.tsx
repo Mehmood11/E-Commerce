@@ -149,7 +149,16 @@ const HeroSection = () => {
               <Typography variant="body1" sx={{ color: "white" }}>
                 {step.text}
               </Typography>
-              <Button variant="contained" sx={{ background: "black", mt: 2 }}>
+              <Button
+                variant="contained"
+                sx={{
+                  background: "black",
+                  mt: 2,
+                  "&:hover": {
+                    background: "black",
+                  },
+                }}
+              >
                 Shop Now
               </Button>
             </Box>
