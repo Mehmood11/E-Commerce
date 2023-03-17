@@ -1,6 +1,5 @@
 import { Box, Grid, Typography } from "@mui/material";
 import Avatar from "@mui/material/Avatar";
-import React, { useState } from "react";
 import Rating from "@mui/material/Rating";
 import p1 from "../../../assets/products/p1.png";
 import p2 from "../../../assets/products/p2.png";
@@ -13,14 +12,14 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import { favProductAction } from "../../../store/productSlice/ProductSlice";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux/es/exports";
-import "./ProductItem.scss";
-
+import { useSnackbar } from "notistack";
 import ProductDetailsModal from "./ProductDetailsModal/ProductDetailsModal";
+import "./ProductItem.scss";
 
 const chairArray = [
   {
     id: 1,
-    productImg: p1,
+    imageArray: [p1, p3, p2],
     title: "Chair",
     price: 12,
     rating: 2,
@@ -28,7 +27,7 @@ const chairArray = [
   },
   {
     id: 2,
-    productImg: p2,
+    imageArray: [p2, p4, p5],
     title: "Chair",
     price: 12,
     rating: 3,
@@ -36,7 +35,7 @@ const chairArray = [
   },
   {
     id: 3,
-    productImg: p3,
+    imageArray: [p3, p5, p2],
     title: "Chair",
     price: 12,
     rating: 1,
@@ -44,7 +43,7 @@ const chairArray = [
   },
   {
     id: 4,
-    productImg: p4,
+    imageArray: [p4, p3, p2],
     title: "Chair",
     price: 12,
     rating: 5,
@@ -52,7 +51,7 @@ const chairArray = [
   },
   {
     id: 5,
-    productImg: p5,
+    imageArray: [p5, p3, p2],
     title: "Chair",
     price: 12,
     rating: 1,
@@ -60,19 +59,20 @@ const chairArray = [
   },
   {
     id: 6,
-    productImg: p6,
+    imageArray: [p6, p3, p2],
     title: "Chair",
     price: 12,
     rating: 2,
     text: "Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 o (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, comes from a line in section 1.10.32.",
   },
 ];
-const ProductItem = () => {
-  const [favIcon, setFavIcon] = useState(false);
-  const favProduct = useSelector((state: any) => state.favProduct);
-  console.log(favProduct);
 
+const ProductItem = () => {
+  const favProduct = useSelector((state: any) => state.favProduct);
+
+  const { enqueueSnackbar } = useSnackbar();
   const disptach = useDispatch();
+
   return (
     <Box
       sx={{
@@ -82,8 +82,6 @@ const ProductItem = () => {
         flexDirection: "column",
         m: "0 auto",
         width: "60%",
-        height: "100vh",
-        // background: "#333",
       }}
     >
       <Typography variant="h2" className="fancy">
@@ -102,14 +100,13 @@ const ProductItem = () => {
                 mt: 0,
                 p: 1,
                 position: "relative",
-                // background: "rgba(255,255,255,0.25)",
                 backdropFilter: " blur(10px)",
                 borderRadius: "12px",
                 border: "1px solid #333",
               }}
             >
               <Avatar
-                src={item.productImg}
+                src={item.imageArray[0]}
                 sx={{ width: "300px", height: "220px" }}
                 variant="square"
               />
@@ -132,9 +129,12 @@ const ProductItem = () => {
                     top: 10,
                     right: 10,
                     cursor: "pointer",
-                    fill: "#3E2B24",
+                    fill: "red",
                   }}
                   onClick={() => {
+                    enqueueSnackbar("Item have been removed from wishlist", {
+                      variant: "warning",
+                    });
                     disptach(favProductAction(item));
                   }}
                 />
@@ -145,10 +145,13 @@ const ProductItem = () => {
                     top: 10,
                     right: 10,
                     cursor: "pointer",
-                    fill: "#3E2B24",
+                    fill: "red",
                   }}
                   onClick={() => {
                     disptach(favProductAction(item));
+                    enqueueSnackbar("Item Added to wishlist successfully", {
+                      variant: "success",
+                    });
                   }}
                 />
               )}

@@ -1,10 +1,18 @@
-import React from "react";
+import React, { useState, useId } from "react";
 import FullscreenIcon from "@mui/icons-material/Fullscreen";
 import Modal from "@mui/material/Modal";
-import { Box, Typography } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid";
 import Avatar from "@mui/material/Avatar";
 import Rating from "@mui/material/Rating";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  decreaseQuantity,
+  increaseQuantity,
+  productListHandler,
+} from "../../../../store/productSlice/ProductSlice";
+import { useSnackbar } from "notistack";
+
 const style = {
   position: "absolute" as "absolute",
   top: "50%",
@@ -13,17 +21,54 @@ const style = {
   width: "80%",
   bgcolor: "background.paper",
   boxShadow: 24,
+  height: "660px",
+  overFlow: "auto",
   p: 4,
+  zIndex: 111,
   borderRadius: "10px",
 };
 
 const ProductDetailsModal = ({ data }: any) => {
+  const productId = useId();
+  const dispatch = useDispatch();
+  const { enqueueSnackbar } = useSnackbar();
   const [open, setOpen] = React.useState(false);
-  const handleClose = () => setOpen(false);
+  const [smallImg, setSmallImg] = useState(0);
+  const [img, setImg] = useState<any>(data.imageArray[smallImg]);
+  const increaseQuantit = useSelector((state: any) => state.increaseQuantity);
+  const productList = useSelector((state: any) => state.productList);
 
-  const viewDetailsHandler = () => {
-    setOpen(true);
+  const handleClose = () => setOpen(false);
+  const smallImageHanlder = (i: any, item: any) => {
+    setImg(item);
+    setSmallImg(i);
   };
+
+  let item = {
+    id: productId,
+    totalQuantity: increaseQuantit,
+    title: data.text,
+    price: data.price,
+    rating: data.rating,
+    productImage: img,
+  };
+
+  const addToCartHandler = () => {
+    const filteredArray = productList?.findIndex(
+      (items: any) => items?.id === item?.id
+    );
+    
+    if (filteredArray === -1) {
+      dispatch(productListHandler(item));
+      enqueueSnackbar("Item have been added Successfully", {
+        variant: "success",
+      });
+    } else
+      enqueueSnackbar("Item have already been added", {
+        variant: "warning",
+      });
+  };
+
   return (
     <>
       <FullscreenIcon
@@ -34,7 +79,7 @@ const ProductDetailsModal = ({ data }: any) => {
           cursor: "pointer",
           fill: "#3E2B24",
         }}
-        onClick={viewDetailsHandler}
+        onClick={() => setOpen(true)}
       />
       <Modal
         open={open}
@@ -43,7 +88,7 @@ const ProductDetailsModal = ({ data }: any) => {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <Grid container>
+          <Grid container sx={{ px: 3 }}>
             <Grid
               item
               xs={12}
@@ -56,27 +101,35 @@ const ProductDetailsModal = ({ data }: any) => {
               }}
             >
               <Box>
-                <img src={data.productImg} />
+                <Avatar
+                  src={img}
+                  sx={{
+                    width: "100%",
+                    height: "500px",
+                  }}
+                  variant="square"
+                />
               </Box>
               <Box sx={{ display: "flex" }}>
-                <Avatar
-                  src={data.productImg}
-                  sx={{ width: "100px", height: "120px" }}
-                  variant="square"
-                />
-                <Avatar
-                  src={data.productImg}
-                  sx={{ width: "100px", height: "120px" }}
-                  variant="square"
-                />
-                <Avatar
-                  src={data.productImg}
-                  sx={{ width: "100px", height: "120px" }}
-                  variant="square"
-                />
+                {data.imageArray?.map((item: any, i: any) => (
+                  <Avatar
+                    key={i}
+                    src={item}
+                    sx={{
+                      width: "100px",
+                      height: "80px",
+                      border: `${
+                        smallImg === data.imageArray.indexOf(item) &&
+                        "1px solid black"
+                      }`,
+                    }}
+                    variant="square"
+                    onClick={() => smallImageHanlder(i, item)}
+                  />
+                ))}
               </Box>
             </Grid>
-            <Grid item xs={12} md={6} sx={{ py: 5 }}>
+            <Grid item xs={12} md={6} sx={{ py: 7 }}>
               <Typography id="modal-modal-title" variant="h2" component="h2">
                 {data.title}
               </Typography>
@@ -93,6 +146,75 @@ const ProductDetailsModal = ({ data }: any) => {
                 value={data.rating}
                 readOnly
               />
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                }}
+              >
+                <Button
+                  variant="contained"
+                  sx={{
+                    background: "black",
+                    mt: 2,
+                    "&:hover": {
+                      background: "black",
+                    },
+                  }}
+                  onClick={addToCartHandler}
+                >
+                  Add To Cart
+                </Button>
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "flex-end",
+                  }}
+                >
+                  <Typography sx={{ p: 1, lineHeight: "2px" }}>
+                    Total Quantity:
+                  </Typography>
+
+                  <Button
+                    variant="contained"
+                    sx={{
+                      background: "black",
+                      minWidth: "10px",
+                      p: 1,
+                      lineHeight: "2px",
+                      mt: 2,
+                      "&:hover": {
+                        background: "black",
+                      },
+                    }}
+                    onClick={() => dispatch(increaseQuantity(item))}
+                  >
+                    +
+                  </Button>
+                  <Typography sx={{ p: 1, lineHeight: "2px" }}>
+                    {increaseQuantit}
+                  </Typography>
+                  <Button
+                    variant="contained"
+                    sx={{
+                      background: "black",
+                      minWidth: "10px",
+                      p: 1,
+                      lineHeight: "2px",
+                      mt: 2,
+                      "&:hover": {
+                        background: "black",
+                      },
+                    }}
+                    disabled={increaseQuantit > 1 ? false : true}
+                    onClick={() => dispatch(decreaseQuantity(item))}
+                  >
+                    -
+                  </Button>
+                </Box>
+              </Box>
             </Grid>
           </Grid>
         </Box>

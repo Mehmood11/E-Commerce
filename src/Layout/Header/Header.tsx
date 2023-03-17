@@ -19,6 +19,7 @@ import { useSelector } from "react-redux";
 const Header = () => {
   const [age, setAge] = React.useState("English (UK)");
   const favProduct = useSelector((state: any) => state.favProduct);
+  const productList = useSelector((state: any) => state.productList);
 
   const handleChange = (event: SelectChangeEvent) => {
     setAge(event.target.value);
@@ -187,7 +188,7 @@ const Header = () => {
                 borderRadius: "50%",
               }}
             >
-              3
+              {productList.length}
             </Typography>
             <ShoppingCartIcon />
           </Box>

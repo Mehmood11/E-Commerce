@@ -9,6 +9,14 @@ import sliderImage from "../../../assets/sliderImage.jpg";
 import sliderImage2 from "../../../assets/sliderImage2.jpg";
 import "./HeroSection.scss";
 import SearchIcon from "@mui/icons-material/Search";
+import SwipeableViews from "react-swipeable-views";
+import { autoPlay } from "react-swipeable-views-utils";
+import { useTheme } from "@mui/material/styles";
+import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
+import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
+import MobileStepper from "@mui/material/MobileStepper";
+
+const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 
 const mainSlider = [
   {
@@ -28,6 +36,21 @@ const mainSlider = [
 ];
 
 const HeroSection = () => {
+  const theme = useTheme();
+  const [activeStep, setActiveStep] = React.useState(0);
+  const maxSteps = mainSlider.length;
+
+  const handleNext = () => {
+    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+  };
+
+  const handleBack = () => {
+    setActiveStep((prevActiveStep) => prevActiveStep - 1);
+  };
+
+  const handleStepChange = (step: number) => {
+    setActiveStep(step);
+  };
   return (
     <div
       className="main-slider"
@@ -50,11 +73,10 @@ const HeroSection = () => {
           zIndex: "121212",
         }}
       >
-        <Grid item xs={12} md={4}></Grid>
+        <Grid item xs={4}></Grid>
         <Grid
           item
-          xs={12}
-          md={4}
+          xs={4}
           borderTop="45px solid transparent"
           bgcolor={"white"}
           display={"flex"}
@@ -120,45 +142,47 @@ const HeroSection = () => {
           item
           xs={12}
           md={4}
-          // sx={{ backgroundColor: "black" }}
         ></Grid>
       </Grid>
+
       <Carousel showThumbs={false} infiniteLoop>
         {mainSlider.map((step: any, index: any) => (
-          <div key={index} style={{ position: "relative" }}>
-            <img src={step.img} />
-            <Box
+          <Box
+            key={index}
+            sx={{
+              background: `url(${step.img})`,
+              backgroundRepeat: "no-repeat",
+              backgroundPosition: "top center",
+              height: "80vh",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              flexDirection: "column",
+              px: 4,
+            }}
+          >
+            <Typography variant="h4" sx={{ color: "white" }}>
+              {step.mainTitle}
+            </Typography>
+            <Typography variant="h1" sx={{ color: "white" }}>
+              {step.title}
+            </Typography>
+            <Typography variant="body1" sx={{ color: "white", width: "70%" }}>
+              {step.text}
+            </Typography>
+            <Button
+              variant="contained"
               sx={{
-                zIndex: "1224234234",
-                position: "absolute",
-                top: "50%",
-                left: "50%",
-                transform: "translate(-50%, -50%)",
+                background: "black",
+                mt: 2,
+                "&:hover": {
+                  background: "black",
+                },
               }}
             >
-              <Typography variant="h4" sx={{ color: "white" }}>
-                {step.mainTitle}
-              </Typography>
-              <Typography variant="h1" sx={{ color: "white" }}>
-                {step.title}
-              </Typography>
-              <Typography variant="body1" sx={{ color: "white" }}>
-                {step.text}
-              </Typography>
-              <Button
-                variant="contained"
-                sx={{
-                  background: "black",
-                  mt: 2,
-                  "&:hover": {
-                    background: "black",
-                  },
-                }}
-              >
-                Shop Now
-              </Button>
-            </Box>
-          </div>
+              Shop Now
+            </Button>
+          </Box>
         ))}
       </Carousel>
     </div>
