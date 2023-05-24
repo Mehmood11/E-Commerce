@@ -2,22 +2,12 @@ import { Button, Grid, Paper, Typography } from "@mui/material";
 import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
 import InputBase from "@mui/material/InputBase";
-import React from "react";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import sliderImage from "../../../assets/sliderImage.jpg";
 import sliderImage2 from "../../../assets/sliderImage2.jpg";
 import "./HeroSection.scss";
 import SearchIcon from "@mui/icons-material/Search";
-import SwipeableViews from "react-swipeable-views";
-import { autoPlay } from "react-swipeable-views-utils";
-import { useTheme } from "@mui/material/styles";
-import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
-import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
-import MobileStepper from "@mui/material/MobileStepper";
-
-const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
-
 const mainSlider = [
   {
     id: 1,
@@ -36,21 +26,6 @@ const mainSlider = [
 ];
 
 const HeroSection = () => {
-  const theme = useTheme();
-  const [activeStep, setActiveStep] = React.useState(0);
-  const maxSteps = mainSlider.length;
-
-  const handleNext = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
-  };
-
-  const handleBack = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
-  };
-
-  const handleStepChange = (step: number) => {
-    setActiveStep(step);
-  };
   return (
     <div
       className="main-slider"
