@@ -71,7 +71,7 @@ const Header = () => {
             }}
           ></div>
           <Typography component={"span"} sx={{ position: "absolute", top: 10 }}>
-            Flexible Chair
+            Flexible Chairs
           </Typography>
         </Grid>
         <Grid
